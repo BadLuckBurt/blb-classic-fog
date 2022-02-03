@@ -1,0 +1,13 @@
+{
+    "ModTitle": "blb-classic-fog",
+    "ModVersion": "0.1",
+    "ModAuthor": "BadLuckBurt",
+    "ContactInfo": "https://forums.dfworkshop.net/memberlist.php?mode=viewprofile&u=938",
+    "DFUnity_Version": "0.13.4",
+    "ModDescription": "Changes fog settings to mimic classic Daggerfall fog",
+    "GUID": "1b66df40-dd8a-44bd-bc7d-639d68ff85e6",
+    "Files": [
+        "Assets/Game/Mods/blb-classic-fog/blb-classic-fog.dfmod.json",
+        "Assets/Game/Mods/blb-classic-fog/BLBClassicFog.cs"
+    ]
+}
