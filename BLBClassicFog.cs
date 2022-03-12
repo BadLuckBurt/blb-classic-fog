@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using DaggerfallConnect;
 using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Game.Utility.ModSupport;   //required for modding features
@@ -13,43 +14,47 @@ public class BLBClassicFog : MonoBehaviour
 
     public static BLBClassicFog Instance { get; private set; }
 
+    public static Dictionary<int, float> viewDistances = new Dictionary<int, float>();
+
     [Invoke(StateManager.StateTypes.Start, 0)]
     public static void Init(InitParams initParams)
     {
         Mod = initParams.Mod;  // Get mod     
         Instance = new GameObject("BLBClassicFog").AddComponent<BLBClassicFog>(); // Add script to the scene.    
 
-        float vanillaDistance = 100.0f;
-        float eyeOfArgoniaDistance = 200.0f;
+        var settings = Mod.GetSettings();
 
-        float viewDistance = vanillaDistance;
-        float multiplier = viewDistance / vanillaDistance;
+        viewDistances.Add(0, 80f);
+        viewDistances.Add(1, 160f);
+
+        int viewDistanceSetting = settings.GetValue<int>("ViewDistance", "ViewDistance");
+        float viewDistance = viewDistances[viewDistanceSetting];
+        float fogStartDistance = viewDistance * 0.375f;
+
+        float multiplier = viewDistance / viewDistances[0];
 
         GameManager.Instance.MainCamera.farClipPlane = viewDistance;
         GameManager.Instance.StreamingWorld.TerrainDistance = 1;
 
-        float vanillaStartDistance = 56.0f;
-        float startDistance = vanillaStartDistance * multiplier;
-
         WeatherManager weatherManager = GameManager.Instance.WeatherManager;
 
-        SunnyFogSettings.startDistance = startDistance;
-        SunnyFogSettings.endDistance = viewDistance - (4 * multiplier);
+        SunnyFogSettings.startDistance = fogStartDistance - (2 * multiplier);
+        SunnyFogSettings.endDistance = viewDistance - (2 * multiplier);
         weatherManager.SunnyFogSettings = SunnyFogSettings;
 
-        OvercastFogSettings.startDistance = startDistance - (4 * multiplier);
-        OvercastFogSettings.endDistance = viewDistance - (8 * multiplier);
+        OvercastFogSettings.startDistance = fogStartDistance - (4 * multiplier);
+        OvercastFogSettings.endDistance = viewDistance - (4 * multiplier);
         weatherManager.OvercastFogSettings = OvercastFogSettings;
 
-        RainyFogSettings.startDistance = startDistance - (8 * multiplier);
-        RainyFogSettings.endDistance = viewDistance - (16 * multiplier);
+        RainyFogSettings.startDistance = fogStartDistance - (8 * multiplier);
+        RainyFogSettings.endDistance = viewDistance - (8 * multiplier);
         weatherManager.RainyFogSettings = RainyFogSettings;
 
-        SnowyFogSettings.startDistance = startDistance - (16 * multiplier); 
-        SnowyFogSettings.endDistance = viewDistance - (32 * multiplier);
+        SnowyFogSettings.startDistance = fogStartDistance - (16 * multiplier); 
+        SnowyFogSettings.endDistance = viewDistance - (16 * multiplier);
         weatherManager.SnowyFogSettings = SnowyFogSettings;
 
-        HeavyFogSettings.startDistance = startDistance - (24 * multiplier);
+        HeavyFogSettings.startDistance = fogStartDistance - (32 * multiplier);
         HeavyFogSettings.endDistance = viewDistance - (32 * multiplier);
         weatherManager.HeavyFogSettings = HeavyFogSettings;
 

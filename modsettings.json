@@ -1,0 +1,24 @@
+{
+    "Version": "1.0",
+    "Sections": [
+        {
+            "Name": "ViewDistance",
+            "Description": "View distance",
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Options": [
+                        "Classic",
+                        "Eye of Argonia"
+                    ],
+                    "Value": 0,
+                    "Name": "ViewDistance",
+                    "Description": "Choose between classic view distance or Eye of Argonia view distance",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.MultipleChoiceKey"
+                }
+            ],
+            "$version": "v1"
+        }
+    ]
+}
