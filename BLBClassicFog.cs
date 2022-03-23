@@ -24,11 +24,13 @@ public class BLBClassicFog : MonoBehaviour
 
         var settings = Mod.GetSettings();
 
-        viewDistances.Add(0, 80f);
-        viewDistances.Add(1, 160f);
+        viewDistances.Add(0, 64f);
+        viewDistances.Add(1, 128f);
 
         int viewDistanceSetting = settings.GetValue<int>("ViewDistance", "ViewDistance");
-        float viewDistance = viewDistances[viewDistanceSetting];
+        float viewDistanceMultiplier = settings.GetValue<float>("ViewDistanceMultiplier","ViewDistanceMultiplier");
+
+        float viewDistance = viewDistances[viewDistanceSetting] * viewDistanceMultiplier;
         float fogStartDistance = viewDistance * 0.375f;
 
         float multiplier = viewDistance / viewDistances[0];
